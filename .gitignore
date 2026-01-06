@@ -1,0 +1,6 @@
+myenv
+service-account.json
+volumes
+.volumes/
+final_data
+chat_history_db
