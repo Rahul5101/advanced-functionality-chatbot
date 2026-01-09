@@ -1,6 +1,7 @@
 # step_7_utility.py
 import re
 
+
 def escape_inner_quotes(text: str) -> str:
     """
     Escapes inner double quotes inside <a ...> and other HTML tags
@@ -52,3 +53,6 @@ def replace_links(text: str, all_meta_data: list) -> str:
             return f"{source_name}, page {page}"
 
     return re.sub(pattern, repl, text)
+
+
+

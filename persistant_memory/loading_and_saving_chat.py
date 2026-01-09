@@ -1,14 +1,19 @@
 import sqlite3
+import sqlite_vec
 import json
 import time
+import numpy as np
+import struct
 
 DB_PATH = "chat_history.db"
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
+    conn.enable_load_extension(True)
+    sqlite_vec.load(conn)
     cursor = conn.cursor()
 
-    # Main table: Stores unique Q&A pairs with hit tracking
+    # 1. Main table (Keep as is)
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS chat_history (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,37 +23,147 @@ def init_db():
         answer TEXT NOT NULL,
         hit_count INTEGER DEFAULT 1,
         last_asked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        UNIQUE(session_id,question)
+        UNIQUE(session_id, question)
     )
     """)
 
-    
-    
+    # 2. Virtual Vector Table - Remove the 'id' column definition
+    # We will use the built-in 'rowid' which is standard for virtual tables
+    cursor.execute("""
+    CREATE VIRTUAL TABLE IF NOT EXISTS vec_chat_history USING vec0(
+        query_vector float[3072]
+    )
+    """)
+
     conn.commit()
     conn.close()
 
-init_db()
+# Helper to convert list/numpy to bit-format for sqlite-vec
+def serialize_vector(vector):
+    return np.array(vector, dtype=np.float32).tobytes()
 
-# ---------- SAVE CHAT ----------
-def save_chat_turn(session_id, question, answer_dict):
-    """Saves to session history and updates the unique_queries registry."""
+def save_chat_turn(session_id, question, answer_dict, query_vector):
     conn = sqlite3.connect(DB_PATH)
+    conn.enable_load_extension(True)
+    sqlite_vec.load(conn)
     cursor = conn.cursor()
     
-    
+    try:
+        # 1. Upsert text data
+        cursor.execute("""
+            INSERT INTO chat_history (session_id, timestamp, question, answer, hit_count, last_asked_at)
+            VALUES (?, ?, ?, ?, 1, CURRENT_TIMESTAMP)
+            ON CONFLICT(session_id, question) DO UPDATE SET
+                answer = excluded.answer,
+                hit_count = chat_history.hit_count + 1,
+                last_asked_at = CURRENT_TIMESTAMP
+            RETURNING id
+        """, (session_id, time.strftime("%Y-%m-%d %H:%M:%S"), question, json.dumps(answer_dict)))
+        
+        result = cursor.fetchone()
+        if not result: return
+        row_id = result[0]
 
-    # 2. Upsert the unique query (If question exists, update answer and count)
-    cursor.execute("""
-        INSERT INTO chat_history (session_id,timestamp,question, answer, hit_count, last_asked_at)
-        VALUES (?,?,?, ?, 1, CURRENT_TIMESTAMP)
-        ON CONFLICT(session_id,question) DO UPDATE SET
-            answer = excluded.answer,
-            hit_count = hit_count + 1,
-            last_asked_at = CURRENT_TIMESTAMP
-    """, (session_id,time.strftime("%Y-%m-%d %H:%M:%S"),question, json.dumps(answer_dict)))
+        # 2. Update Vector Table using 'rowid'
+        # Using INSERT OR REPLACE on rowid is the standard way to update virtual tables
+        cursor.execute("""
+            INSERT OR REPLACE INTO vec_chat_history(rowid, query_vector) 
+            VALUES (?, ?)
+        """, (row_id, serialize_vector(query_vector)))
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+    except Exception as e:
+        print(f"Error saving to SQLite: {e}")
+        conn.rollback()
+    finally:
+        conn.close()
+
+# def search_history_semantic(query_vector, proximity_threshold=0.90):
+#     """
+#     Searches SQLite (sqlite-vec) for the most similar previous question.
+#     Returns the answer if similarity >= threshold.
+#     """
+#     conn = sqlite3.connect(DB_PATH)
+#     conn.enable_load_extension(True)
+#     sqlite_vec.load(conn)
+#     cursor = conn.cursor()
+
+#     query_vec = serialize_vector(query_vector)
+
+#     cursor.execute("""
+#         SELECT 
+#             h.answer,
+#             vec_distance_cosine(v.query_vector, ?) AS distance,
+#             h.question
+#         FROM vec_chat_history v
+#         JOIN chat_history h ON v.id = h.id
+#         WHERE v.query_vector MATCH ?
+#           AND k = 1
+#         ORDER BY distance ASC
+#     """, (query_vec, query_vec))
+
+#     row = cursor.fetchone()
+#     conn.close()
+
+#     if not row:
+#         return None
+
+#     answer_json, distance, original_question = row
+#     similarity = 1 - distance
+
+#     if similarity >= proximity_threshold:
+#         return {
+#             "answer": json.loads(answer_json),
+#             "similarity": similarity,
+#             "question": original_question
+#         }
+
+#     return None
+
+def search_history_semantic(query_vector, proximity_threshold=0.90):
+    conn = sqlite3.connect(DB_PATH)
+    conn.enable_load_extension(True)
+    sqlite_vec.load(conn)
+    cursor = conn.cursor()
+
+    query_vec = serialize_vector(query_vector)
+
+    try:
+        # Change v.id to v.rowid here
+        cursor.execute("""
+            SELECT 
+                h.answer,
+                vec_distance_cosine(v.query_vector, ?) AS distance,
+                h.question
+            FROM vec_chat_history v
+            JOIN chat_history h ON v.rowid = h.id  -- Fixed: Use rowid
+            WHERE v.query_vector MATCH ?
+              AND k = 1
+            ORDER BY distance ASC
+        """, (query_vec, query_vec))
+
+        row = cursor.fetchone()
+    except Exception as e:
+        print(f"⚠️ SQLite Search Error: {e}")
+        row = None
+    finally:
+        conn.close()
+
+    if not row:
+        return None
+
+    answer_json, distance, original_question = row
+    similarity = 1 - distance
+
+    if similarity >= proximity_threshold:
+        return {
+            "answer": json.loads(answer_json),
+            "similarity": similarity,
+            "question": original_question
+        }
+
+    return None
+
 
 
 
@@ -106,25 +221,6 @@ def get_top_k_queries(k: int):
     rows = cur.fetchall()
     conn.close()
     return rows  # Returns list of (question, answer_json)
-
-
-# def is_query_unique(question: str) -> bool:
-#     conn = sqlite3.connect(DB_PATH)
-#     cur = conn.cursor()
-
-#     cur.execute("""
-#         SELECT COUNT(*)
-#         FROM chat_history
-#         WHERE question = ?
-#     """, (question,))
-
-#     count = cur.fetchone()[0]
-#     conn.close()
-
-#     # count == 1 means this is the FIRST time it appeared
-#     return count == 1
-
-
 
 
 
@@ -222,6 +318,7 @@ def get_recent_conversation(session_id, last_n=5):
 
 
 def load_chat_history(session_id, last_n:int=None):
+    init_db()
     data = (
         get_recent_conversation(session_id, last_n)
         if last_n else

@@ -102,3 +102,4 @@ zstandard==0.25.0
 redis
 reportlab
 python-docx
+sqlite_vec
