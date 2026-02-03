@@ -75,6 +75,8 @@ Ensure that all dictionaries within the `table_data` list use the **same keys** 
 
 
 
+
+
 — Table-Specific Rules:
  - If the user requests an answer **in a table**, follow this structure:
   - Table must have **2-4 concise columns**.
@@ -140,7 +142,37 @@ Do NOT hallucinate.
 ---
 
 ### Chat History (User Memory)
+
+
 {chat_history}
 ''',
     input_variables=['context', 'question','chat_history']
 )
+
+
+
+
+
+
+
+# 7. provide a **Confidence_Reasoning** explaining Internal critique: Why might this answer be incomplete?.
+# 7. Provide a **Confidence_Score** between 0 and 1 (decimal) indicating how confident you are that the answer is fully supported by the context.
+
+###  CONFIDENCE LOGIC: HYBRID GROUNDING
+# You must provide a Confidence_Score between 0.00 and 1.00. 
+# Instead of a binary "Yes/No" for context, evaluate how much "Helpful Legal Detail" you provided versus how much was "Hard Evidence" from the context.
+
+# 1. START at 1.00.
+# 2. PARTIAL MATCH LOGIC:
+#    - If the context defines the term but lacks the 'process', do NOT give a 0.
+#    - Instead, DEDUCT 0.30 for "Partial Evidence" (the 'What' is there, but the 'How' is inferred).
+#    - DEDUCT 0.15 for "Synthesis" (connecting context definitions to general legal procedures).
+# 3. THE "HELPFULNESS" FLOOR:
+#    - If you provided a legally correct answer that uses the context as a foundation (even if incomplete), the score should NOT fall below 0.40.
+#    - A score of 0.00 is ONLY for when the context is completely irrelevant (e.g., context is about 'Weather' and question is about 'BNS').
+
+# ### REVISED SCORING RUBRIC
+# - 0.85 - 1.00: Context fully answers the 'How', 'What', and 'Why'.
+# - 0.60 - 0.84: Context provides the 'What' (definitions), but you used legal logic to explain the 'How' (procedure).
+# - 0.40 - 0.59: Context is a "starting point" only; most of the procedural detail came from your internal knowledge.
+# - Below 0.40: Significant gap; the context and query are barely related.

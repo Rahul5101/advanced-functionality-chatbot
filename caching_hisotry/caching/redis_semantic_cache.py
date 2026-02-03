@@ -22,9 +22,9 @@ INDEX_NAME = "idx:semantic"
 KEY_PREFIX = "semantic:"       # each cached item will be stored as HASH semantic:<id>
 EMBED_FIELD = "embedding"      # the vector field name in index
 DIM = int(os.getenv("DIM",3072))         # set this to your embedding dimension                                     
-THRESHOLD = float(os.getenv("THRESHOLD",0.85)) # 98% similarity threshold       
+THRESHOLD = float(os.getenv("THRESHOLD",0.98)) # 98% similarity threshold       
 # EMBEDDING_API = os.getenv("EMBEDDING_API")
-DEFAULT_K = 1
+DEFAULT_K = 3
 
 print("THRESHOLD: ",THRESHOLD)
 # -------------------------
@@ -128,7 +128,7 @@ def create_index_if_not_exists(dim: int = DIM):
 import json
 import numpy as np
 
-def upsert_cache_item(id: str, query_text: str, answer_text: str, embedding: np.ndarray):
+def upsert_cache_item(id: str, query_text: str, answer_text: str, confidence_score,embedding: np.ndarray):
     key = f"{KEY_PREFIX}{id}"
 
     
@@ -147,6 +147,7 @@ def upsert_cache_item(id: str, query_text: str, answer_text: str, embedding: np.
     mapping = {
         "query": query_text.encode("utf-8"),
         "answer": json.dumps(answer_text).encode("utf-8"), 
+        "confidence_score":confidence_score,
         EMBED_FIELD: emb_bytes
     }
     r.hset(key, mapping=mapping)
@@ -189,7 +190,7 @@ def _parse_search_response(res: list) -> t.List[t.Tuple[str, dict]]:
 
 
 
-def semantic_lookup(query_text: str,query_vector:list, k: int = DEFAULT_K, threshold: float = THRESHOLD):
+def semantic_lookup(query_text:str,query_vector:list, k: int = DEFAULT_K, threshold: float = THRESHOLD):
 
     q_emb = np.array(query_vector, dtype=np.float32)
     q_emb = normalize_inplace(q_emb)
@@ -204,7 +205,7 @@ def semantic_lookup(query_text: str,query_vector:list, k: int = DEFAULT_K, thres
         "SORTBY", "score",
         "LIMIT", "0", str(k),
         "DIALECT", "2",
-        "RETURN", "3", "answer", "query", "score"
+        "RETURN", "4", "answer", "query", "score","confidence_score"
     )
 
     # print("RAW FT.SEARCH RESPONSE:", res)
@@ -221,7 +222,7 @@ def semantic_lookup(query_text: str,query_vector:list, k: int = DEFAULT_K, thres
     for key, field_map in hits:
         score_val = float(field_map["score"].decode())
         similarity = 1.0 - score_val   # COSINE distance → similarity
-
+        confidence_score = float(field_map["confidence_score"].decode())
         answer = json.loads(field_map["answer"].decode())
 
         print(f"[CACHE] key={key}, similarity={similarity:.4f}")
@@ -230,13 +231,14 @@ def semantic_lookup(query_text: str,query_vector:list, k: int = DEFAULT_K, thres
             best_score = similarity
             best_answer = answer
             best_key = key
+            confidence_score = confidence_score
 
     print(f"[CACHE] BEST similarity={best_score:.4f}")
 
     if best_score >= threshold:
-        return best_answer, best_score, best_key
+        return best_answer, best_score, best_key,confidence_score
 
-    return None, best_score, best_key
+    return None, best_score, best_key,confidence_score
 
 
 
@@ -250,7 +252,7 @@ def cache_rag(query_text: str,query_vector: list,k: int = DEFAULT_K,):
     # 1. Semantic Cache Lookup
     # -----------------------------
     print("answer got before cached")
-    cached_answer, score, cache_key = semantic_lookup(query_text, query_vector,k=k)
+    cached_answer, score, cache_key,confidence_score = semantic_lookup(query_text, query_vector,k=k)
     print("answer got after cached")
 
     # print("cached answer: ",cached_answer)
@@ -264,17 +266,18 @@ def cache_rag(query_text: str,query_vector: list,k: int = DEFAULT_K,):
 
     if cached_answer is not None:
         # Update existing cache item (refresh)
-        upsert_cache_item(
-            cache_key.replace(KEY_PREFIX, ""),  # existing ID
-            query_text,
-            cached_answer,
-            query_vector,
-        )
+        # upsert_cache_item(
+        #     cache_key.replace(KEY_PREFIX, ""),  # existing ID
+        #     query_text,
+        #     cached_answer,
+        #     query_vector,
+        # )
 
         cache_result = {
             "answer": cached_answer,
             "similarity": score,
             "cache_key": cache_key,
+            "confidence_score":confidence_score,
             "source": "semantic-cache",
         }
     # print("cached rag")
@@ -308,6 +311,7 @@ def upsert_rag_response(
     rag_answer,
     query_text: str,
     query_vector: list,
+    confidence_score:float,
     id_generator: t.Callable[[], str],
 ):
     
@@ -322,6 +326,7 @@ def upsert_rag_response(
         new_id,
         query_text,
         rag_answer,
+        confidence_score,
         np.array(query_vector)
     )
 
@@ -342,13 +347,14 @@ def refresh_redis_from_sqlite(limit=100):
     
     top_rows = get_top_k_queries(limit)
     id_gen = simple_id_generator()
-    for query, answer,hits in top_rows:
+    for query, answer,hits,confidence_score in top_rows:
         emb = embedding_model.embed_query(query)
 
         upsert_rag_response(
             json.loads(answer),
             query,
             np.array(emb) ,
+            confidence_score,
             id_gen
         )
 

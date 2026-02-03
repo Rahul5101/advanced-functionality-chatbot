@@ -72,18 +72,21 @@ async def main(query: str, detected_lang: str = "en",session_id = "defaut_sessio
 
     try:
         cache_lookup = cache_rag(query, query_vector)
-        cache_answer = retrive_from_redis(cache_lookup)
+        score , cache_answer,confidence_score = retrive_from_redis(cache_lookup)
     except Exception as e:
         # Log the error but don't stop the execution
         print(f"⚠️ Redis Cache Error (Index might be missing): {e}")
         cache_answer = None
-    if cache_answer is not None:
+    if cache_answer:
+        confidence_score = cache_answer.get("confidence_score")
         print("Final output prepared.", cache_answer)
+        # weighted_final_score = 0.7*score + 0.3*confidence_score
         save_chat_turn(
             session_id=session_id,
             question=query,
             answer_dict=cache_answer,
-            query_vector=query_vector
+            query_vector=query_vector,
+            confidence_score=confidence_score
         )
         curr_cnt = get_unique_query_count()
         if curr_cnt % K_THRESHOLD == 0:
@@ -91,15 +94,22 @@ async def main(query: str, detected_lang: str = "en",session_id = "defaut_sessio
         return cache_answer
     
     # if query is not found in cache proceed with sqlite
-    history_response = search_history_semantic(query_vector, proximity_threshold=0.90)
+    history_response = search_history_semantic(query_vector, proximity_threshold=0.95)
+    # print(f" SQLite Semantic Hit! (Sim: {history_response['similarity']:.2f})")
+ 
     if history_response:
+        confidence_score = history_response["confidence"]
+        similarity_score = history_response["similarity"]
         print(f" SQLite Semantic Hit! (Sim: {history_response['similarity']:.2f})")
         print("complete response:",history_response["answer"])
+        final_score = 0.7*similarity_score + 0.3*confidence_score
+
         save_chat_turn(
             session_id=session_id,
             question=query,
             answer_dict=history_response["answer"],
-            query_vector=query_vector
+            query_vector=query_vector,
+            confidence_score=final_score
         )
         curr_cnt = get_unique_query_count()
         if curr_cnt % K_THRESHOLD == 0:
@@ -107,7 +117,8 @@ async def main(query: str, detected_lang: str = "en",session_id = "defaut_sessio
         return history_response["answer"]
     
     print(" CACHE MISS! Starting full RAG pipeline (Milvus + Rerank + Gemini)...")
-    chat_history = load_chat_conversation(session_id=session_id,last_n=4)
+    chat_history = load_chat_conversation(session_id=session_id,last_n=2)
+    # print("chat_history: ",chat_history)
     tasks = process_file(
         query=query,
         embedding_model=embedding_model,
@@ -138,12 +149,14 @@ async def main(query: str, detected_lang: str = "en",session_id = "defaut_sessio
     # Convert to dict (your JSON format)
     translated_output = json.loads(complete_response)
     explanation_and_summary = f"{translated_output.get('Explanation')}\n\n**Summary:**\n{translated_output.get('Summary')}"
+    confidence_score = translated_output.get("Confidence_Score")
     follow_up_question = translated_output.get("Follow_up")
     table_data = translated_output.get("table_data")
 
     # Step 6: Translation
     if detected_lang not in ["en", "hi", "mr", "te"]:
         detected_lang = "en"
+
 
     explanation_translated = output_converison(explanation_and_summary, detected_lang)
     follow_up_translated = output_converison(follow_up_question, detected_lang)
@@ -156,6 +169,7 @@ async def main(query: str, detected_lang: str = "en",session_id = "defaut_sessio
         "response":  explanation_translated ,
         "follow_up": follow_up_translated,
         "table_data": [table_data_translated],
+        "confidence_score": confidence_score,
         "ucid": "99_18"  # example unique ID
     }
     print("Final output prepared.", output)
@@ -163,13 +177,15 @@ async def main(query: str, detected_lang: str = "en",session_id = "defaut_sessio
         session_id=session_id,
         question=query,
         answer_dict=output,
-        query_vector=query_vector
+        query_vector=query_vector,
+        confidence_score=confidence_score
+        
     )
 
     current_cnt = get_unique_query_count()
 
     if current_cnt < K_THRESHOLD:
-        upsert_rag_response(output, query, query_vector, id_gen)
+        upsert_rag_response(output, query, query_vector,confidence_score, id_gen)
     elif current_cnt % K_THRESHOLD == 0:
         refresh_redis_from_sqlite(limit=5)
     

@@ -74,10 +74,12 @@ def retrive_from_redis(cache_response):
         print("🚀 CACHE HIT! Returning stored response from Redis.")
                 
         raw_answer = cache_response["cache"]["answer"]
+        score = cache_response["cache"]["similarity"]
+        confidence_score = cache_response["cache"]["confidence_score"]
 
         # print("raw_answer", raw_answer)
             
-        return raw_answer    
+        return score , raw_answer,confidence_score   
         
     else:
         return None

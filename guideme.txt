@@ -1,0 +1,3 @@
+what i want is 
+
+i want to add all the queries no matter they are similar or not and their seperate embeddings then when user ask a query it first do semantic search it get top k resposne from the sqlite and then after we sort them and rank them basic of confidence score, and save this query and response into the sqlite table.  and we only increment count when user ask exactly same query in the same session, otherwise insert a new row for new quuestion 

@@ -103,3 +103,5 @@ redis
 reportlab
 python-docx
 sqlite_vec
+
+langchain_ollama

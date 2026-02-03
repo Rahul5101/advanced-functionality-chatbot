@@ -1,0 +1,141 @@
+query,GROUND_TRUTH,predicted_complexity,confidence,score,reason,is_correct
+Name the largest planet in the solar system.,SIMPLE,SIMPLE,0.45,0.0,"['Planning task', 'Pure factual intent']",True
+What is the capital of France?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Who wrote Romeo and Juliet?,SIMPLE,SIMPLE,0.41000000000000003,-0.5,"['Multiple factual parts', 'Short factual query']",True
+What is 15 multiplied by 4?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+What gas do plants absorb from the atmosphere?,SIMPLE,SIMPLE,0.61,2.0,['Planning task'],True
+How many continents are there on Earth?,SIMPLE,SIMPLE,0.5700000000000001,1.5,['Single reasoning intent'],True
+What is the boiling point of water in Celsius?,SIMPLE,SIMPLE,0.29000000000000004,-2.0,['Pure factual intent'],True
+Who was the first President of the United States?,SIMPLE,SIMPLE,0.45,0.0,[],True
+What is the chemical symbol for gold?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Which ocean is the largest?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+What is the square root of 64?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+What color do you get by mixing red and white?,SIMPLE,SIMPLE,0.49,0.5,['Multiple factual parts'],True
+How many days are there in a leap year?,SIMPLE,SIMPLE,0.5700000000000001,1.5,['Single reasoning intent'],True
+What planet is known as the Red Planet?,SIMPLE,SIMPLE,0.61,2.0,['Planning task'],True
+What is the freezing point of water in Celsius?,SIMPLE,SIMPLE,0.29000000000000004,-2.0,['Pure factual intent'],True
+Who painted the Mona Lisa?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+What is the tallest land animal?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Which language is primarily spoken in Brazil?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+What is the currency of Japan?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+How many sides does a triangle have?,SIMPLE,SIMPLE,0.5700000000000001,1.5,['Single reasoning intent'],True
+What is the process by which plants make food?,SIMPLE,SIMPLE,0.45,0.0,"['Planning task', 'Pure factual intent']",True
+What is the largest mammal on Earth?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Who discovered gravity?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+What is the capital of Canada?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+What instrument is used to measure temperature?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+Explain how photosynthesis works in plants and analyze why it is essential for sustaining life on Earth.,COMPLEX,COMPLEX,0.95,9.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Planning task', 'Multi-part reasoning']",True
+Analyze the main causes of climate change and explain their effects on global ecosystems and biodiversity.,COMPLEX,COMPLEX,0.95,7.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Compare and contrast democracy and authoritarian forms of government by analyzing their structures and outcomes.,COMPLEX,COMPLEX,0.87,4.5,"['Long query', 'High character length', 'Comparison task', 'Multiple factual parts']",True
+Explain how blockchain technology works and evaluate its real-world applications across different industries.,COMPLEX,COMPLEX,0.95,7.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning', 'Math or logical symbols']",True
+Evaluate the impact of artificial intelligence on future job markets and workforce skill requirements.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Explain the theory of relativity and analyze its significance in modern physics and scientific research.,COMPLEX,COMPLEX,0.92,5.5,"['Long query', 'High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Discuss the ethical implications of genetic engineering in humans and evaluate potential societal risks.,COMPLEX,COMPLEX,0.87,4.5,"['High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Analyze the causes of World War I and explain their long-term political and economic consequences.,COMPLEX,COMPLEX,0.95,6.5,"['Long query', 'High character length', 'Single reasoning intent', 'Multi-part reasoning', 'Math or logical symbols']",True
+Explain how machine learning models are trained and evaluated and why data quality affects their performance.,COMPLEX,COMPLEX,0.95,7.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Describe the process of natural selection and analyze real-world examples that demonstrate evolutionary change.,COMPLEX,COMPLEX,0.92,5.5,"['High character length', 'Single reasoning intent', 'Multi-part reasoning', 'Math or logical symbols']",True
+"Compare renewable and non-renewable energy sources in terms of sustainability, cost, and environmental impact.",COMPLEX,COMPLEX,0.95,7.5,"['High character length', 'Single reasoning intent', 'Comparison task', 'Multi-part reasoning', 'Math or logical symbols']",True
+Explain the role of the United Nations in maintaining global peace and resolving international conflicts.,COMPLEX,COMPLEX,0.79,2.5,"['Long query', 'High character length', 'Multiple factual parts']",True
+Discuss the economic causes of inflation and analyze how governments attempt to control it.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Analyze the advantages and disadvantages of remote work and its impact on productivity and work-life balance.,COMPLEX,COMPLEX,0.95,10.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Comparison task', 'Multi-part reasoning', 'Math or logical symbols']",True
+Explain how the human immune system responds to viral infections and why immune memory is important.,COMPLEX,COMPLEX,0.95,7.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Describe the architecture of a modern operating system and explain how its components interact.,COMPLEX,COMPLEX,0.85,4.5,"['High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Evaluate the social impact of social media on mental health and analyze contributing psychological factors.,COMPLEX,COMPLEX,0.95,7.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Explain the water cycle and analyze its importance to Earth’s climate and ecosystems.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Analyze the differences between SQL and NoSQL databases and explain when each approach is preferable.,COMPLEX,COMPLEX,0.95,9.5,"['Long query', 'High character length', 'Single reasoning intent', 'Planning task', 'Comparison task', 'Multi-part reasoning']",True
+Discuss the challenges of space exploration and colonization and analyze technological and ethical risks.,COMPLEX,COMPLEX,0.87,4.5,"['High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Explain how economic supply and demand interact and analyze how they affect market prices.,COMPLEX,COMPLEX,0.9,5.0,"['Multiple reasoning intents', 'Multi-part reasoning']",True
+Analyze the role of education in economic development and its long-term impact on societal growth.,COMPLEX,COMPLEX,0.95,8.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Multi-part reasoning', 'Math or logical symbols']",True
+Describe how neural networks mimic the human brain and explain how they learn complex patterns.,COMPLEX,COMPLEX,0.92,5.5,"['Long query', 'High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Explain the causes of cybersecurity attacks and analyze strategies for their prevention.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Discuss how globalization affects developing countries and analyze both economic benefits and risks.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Explain the life cycle of a star from formation to supernova and analyze key physical processes.,COMPLEX,COMPLEX,0.92,5.5,"['Long query', 'High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Analyze the impact of pandemics on global economies and explain long-term recovery challenges.,COMPLEX,COMPLEX,0.95,7.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning', 'Math or logical symbols']",True
+Describe the principles of object-oriented programming and explain how they improve software design.,COMPLEX,COMPLEX,0.95,7.5,"['High character length', 'Single reasoning intent', 'Planning task', 'Multi-part reasoning', 'Math or logical symbols']",True
+Explain how encryption ensures data security and analyze its role in modern digital systems.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Discuss psychological theories of motivation and analyze how they influence human behavior.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Analyze the relationship between culture and language and explain how they influence each other.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Explain how renewable energy technologies reduce carbon emissions and support environmental sustainability.,COMPLEX,COMPLEX,0.87,4.5,"['High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Evaluate the pros and cons of nuclear energy and analyze its role in future energy strategies.,COMPLEX,COMPLEX,0.95,9.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Comparison task', 'Multi-part reasoning']",True
+Describe the software development life cycle and explain how each phase contributes to quality software.,COMPLEX,COMPLEX,0.92,5.5,"['Long query', 'High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Explain the effects of deforestation on biodiversity and analyze long-term environmental consequences.,COMPLEX,COMPLEX,0.95,7.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning', 'Math or logical symbols']",True
+Analyze how interest rates influence economic growth and affect consumer and business behavior.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Discuss the role of ethics in artificial intelligence development and analyze potential risks of misuse.,COMPLEX,COMPLEX,0.89,5.5,"['Long query', 'High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Explain how memory management works in operating systems and why it is critical for performance.,COMPLEX,COMPLEX,0.95,7.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Analyze the causes of income inequality across nations and explain contributing economic factors.,COMPLEX,COMPLEX,0.87,4.5,"['High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Describe how cloud computing supports scalable applications and analyze its business advantages.,COMPLEX,COMPLEX,0.95,8.0,"['High character length', 'Multiple reasoning intents', 'Comparison task', 'Multi-part reasoning']",True
+Explain the impact of urbanization on the environment and analyze challenges for sustainable cities.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Discuss how big data analytics improves business decision-making and analyze implementation challenges.,COMPLEX,COMPLEX,0.95,9.0,"['High character length', 'Multiple reasoning intents', 'Planning task', 'Multi-part reasoning', 'Math or logical symbols']",True
+What is the capital of Italy?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Who invented the telephone?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+What is 9 plus 11?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Name the largest ocean on Earth.,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+What color is chlorophyll?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+How many planets are in the solar system?,SIMPLE,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Planning task']",False
+What is the currency of the UK?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Who wrote Harry Potter?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+What is the freezing point of water?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Which animal is known as the king of the jungle?,SIMPLE,SIMPLE,0.45,0.0,[],True
+What does CPU stand for?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+What is the square of 12?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+What gas do humans breathe in to survive?,SIMPLE,SIMPLE,0.45,0.0,[],True
+Which country is famous for sushi?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+How many hours are there in a day?,SIMPLE,SIMPLE,0.5700000000000001,1.5,['Single reasoning intent'],True
+What planet is closest to the sun?,SIMPLE,SIMPLE,0.53,1.0,"['Planning task', 'Short factual query']",True
+What is the primary color mixed with blue to make green?,SIMPLE,SIMPLE,0.29000000000000004,-2.0,['Pure factual intent'],True
+What is the chemical symbol for oxygen?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+Who was the first man on the moon?,SIMPLE,SIMPLE,0.45,0.0,[],True
+What device is used to measure weight?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+Which programming language is mainly used for web styling?,SIMPLE,SIMPLE,0.45,0.0,[],True
+What is the boiling point of water?,SIMPLE,SIMPLE,0.21000000000000002,-3.0,"['Short factual query', 'Pure factual intent']",True
+What shape has four equal sides?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+Which organ pumps blood in the human body?,SIMPLE,SIMPLE,0.45,0.0,[],True
+What does URL stand for?,SIMPLE,SIMPLE,0.37,-1.0,['Short factual query'],True
+"Explain how machine learning models are trained, validated, and evaluated using real-world datasets.",COMPLEX,COMPLEX,0.95,7.0,"['High character length', 'Multiple reasoning intents', 'Multi-part reasoning', 'Math or logical symbols']",True
+Analyze the causes and long-term economic effects of inflation on developing countries.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['Multiple reasoning intents', 'Multi-part reasoning', 'Math or logical symbols']",True
+"Compare renewable and non-renewable energy sources in terms of sustainability, cost, and environmental impact.",COMPLEX,COMPLEX,0.95,7.5,"['High character length', 'Single reasoning intent', 'Comparison task', 'Multi-part reasoning', 'Math or logical symbols']",True
+Explain why cybersecurity risk management is critical for financial institutions and how it reduces losses.,COMPLEX,COMPLEX,0.95,7.0,"['Long query', 'High character length', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+"Analyze how climate change affects agriculture, water resources, and global food security.",COMPLEX,COMPLEX,0.9,5.0,"['Multiple reasoning intents', 'Multi-part reasoning']",True
+"Explain the differences between supervised, unsupervised, and reinforcement learning with examples.",COMPLEX,COMPLEX,0.83,3.5,"['High character length', 'Comparison task', 'Multiple factual parts']",True
+Compare SQL and NoSQL databases and explain when each should be used.,COMPLEX,COMPLEX,0.76,2.5,"['Comparison task', 'Multiple factual parts']",True
+Analyze the ethical implications of artificial intelligence in healthcare decision-making.,COMPLEX,COMPLEX,0.79,2.5,"['Single reasoning intent', 'Math or logical symbols']",True
+Explain how operating systems manage memory and processes simultaneously.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Discuss the advantages and disadvantages of cloud computing for enterprise applications.,COMPLEX,COMPLEX,0.76,2.5,"['Comparison task', 'Multiple factual parts']",True
+Analyze how social media algorithms influence user behavior and information consumption.,COMPLEX,COMPLEX,0.87,5.0,"['Multiple reasoning intents', 'Multi-part reasoning']",True
+Explain the role of DNA replication and mutation in the process of evolution.,COMPLEX,SIMPLE,0.49,0.5,['Multiple factual parts'],False
+Compare capitalism and socialism by analyzing their economic structures and social outcomes.,COMPLEX,COMPLEX,0.83,3.5,"['High character length', 'Comparison task', 'Multiple factual parts']",True
+Explain how blockchain technology ensures transparency and security in financial transactions.,COMPLEX,COMPLEX,0.85,4.5,"['High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Analyze the impact of globalization on employment patterns in emerging economies.,COMPLEX,COMPLEX,0.81,3.0,['Multiple reasoning intents'],True
+Explain why supply and demand fluctuations can lead to market instability.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Compare different software development life cycle models and explain their use cases.,COMPLEX,COMPLEX,0.79,2.5,"['Comparison task', 'Multiple factual parts']",True
+"Analyze how interest rate changes affect inflation, investment, and consumer spending.",COMPLEX,COMPLEX,0.9,5.0,"['Multiple reasoning intents', 'Multi-part reasoning']",True
+Explain how neural networks learn complex patterns using backpropagation and gradient descent.,COMPLEX,COMPLEX,0.87,4.5,"['High character length', 'Single reasoning intent', 'Multi-part reasoning']",True
+Discuss the challenges and risks involved in space exploration and long-term colonization.,COMPLEX,SIMPLE,0.5700000000000001,1.5,"['Multiple factual parts', 'Math or logical symbols']",False
+Analyze the causes and consequences of data breaches in large organizations.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Explain how natural selection and genetic variation drive species adaptation.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Compare nuclear energy with renewable energy sources in terms of safety and scalability.,COMPLEX,COMPLEX,0.76,2.5,"['Comparison task', 'Multiple factual parts']",True
+Explain how recommendation systems work and why they improve user engagement.,COMPLEX,COMPLEX,0.87,5.0,"['Multiple reasoning intents', 'Multi-part reasoning']",True
+Analyze the role of education systems in reducing income inequality.,COMPLEX,SIMPLE,0.5700000000000001,1.5,['Single reasoning intent'],False
+Explain how sound waves travel through air and why pitch and volume can change.,COMPLEX,COMPLEX,0.9,5.0,"['Multiple reasoning intents', 'Multi-part reasoning']",True
+"Discuss how urbanization affects ecosystems, climate, and human health.",COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Analyze the pros and cons of remote work for productivity and employee well-being.,COMPLEX,COMPLEX,0.95,6.5,"['Single reasoning intent', 'Comparison task', 'Multi-part reasoning', 'Math or logical symbols']",True
+Explain how encryption algorithms protect data confidentiality and integrity.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Compare different types of cybersecurity attacks and strategies to mitigate them.,COMPLEX,COMPLEX,0.76,2.5,"['Comparison task', 'Multiple factual parts']",True
+Analyze the impact of pandemics on global supply chains and economic stability.,COMPLEX,COMPLEX,0.9,5.0,"['Multiple reasoning intents', 'Multi-part reasoning']",True
+Explain how APIs enable communication between distributed software systems.,COMPLEX,SIMPLE,0.5700000000000001,1.5,['Single reasoning intent'],False
+Discuss the environmental and economic impacts of deforestation.,COMPLEX,COMPLEX,0.81,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Analyze why bias can emerge in machine learning models and how it can be reduced.,COMPLEX,COMPLEX,0.9299999999999999,6.0,"['Long query', 'Multiple reasoning intents', 'Multi-part reasoning']",True
+Explain the planning considerations involved in migrating legacy systems to the cloud.,COMPLEX,SIMPLE,0.61,2.0,['Planning task'],False
+Compare centralized and decentralized systems in terms of reliability and security.,COMPLEX,COMPLEX,0.76,2.5,"['Comparison task', 'Multiple factual parts']",True
+Analyze the role of ship classification societies in maritime safety and regulation.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Explain how big data analytics supports strategic business decision-making.,COMPLEX,COMPLEX,0.79,2.5,"['Single reasoning intent', 'Math or logical symbols']",True
+Discuss why ethical governance is necessary for large-scale AI deployment.,COMPLEX,COMPLEX,0.79,2.5,"['Single reasoning intent', 'Math or logical symbols']",True
+Analyze the factors influencing consumer behavior in digital marketplaces.,COMPLEX,SIMPLE,0.5700000000000001,1.5,['Single reasoning intent'],False
+Explain how memory leaks occur in software systems and how they can be prevented.,COMPLEX,COMPLEX,0.83,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Compare short-term and long-term economic impacts of government stimulus policies.,COMPLEX,COMPLEX,0.95,6.5,"['Single reasoning intent', 'Comparison task', 'Multi-part reasoning', 'Math or logical symbols']",True
+Explain how climate models are used to predict future environmental changes.,COMPLEX,SIMPLE,0.5700000000000001,1.5,['Single reasoning intent'],False
+Analyze the challenges of maintaining data privacy in cloud-based applications.,COMPLEX,COMPLEX,0.79,2.5,"['Single reasoning intent', 'Math or logical symbols']",True
+Discuss how automation and AI are transforming traditional manufacturing industries.,COMPLEX,COMPLEX,0.81,3.5,"['Single reasoning intent', 'Multi-part reasoning']",True
+Explain the relationship between risk management and organizational resilience.,COMPLEX,SIMPLE,0.49,0.5,['Multiple factual parts'],False
+Analyze how technological innovation drives competitive advantage in businesses.,COMPLEX,COMPLEX,0.78,3.0,['Multiple reasoning intents'],True
+Compare different approaches to software testing and their effectiveness.,COMPLEX,COMPLEX,0.95,7.5,"['Single reasoning intent', 'Planning task', 'Comparison task', 'Multi-part reasoning']",True
